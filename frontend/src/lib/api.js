@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || `${window.location.protocol}//${window.location.hostname}:8000`;
+// Jika ada env var, gunakan itu (untuk production/staging).
+// Jika tidak, gunakan path relatif agar request lewat proxy dev server (port 3000).
+// Ini membuat HP bisa akses API tanpa perlu buka port 8000 secara langsung.
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 
 const api = axios.create({
   baseURL: `${BACKEND_URL}/api`,

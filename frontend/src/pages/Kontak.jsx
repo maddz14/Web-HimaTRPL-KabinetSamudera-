@@ -40,8 +40,8 @@ export default function Kontak() {
         <aside className="lg:col-span-2 space-y-4">
           {[
             { icon: Mail, label: "Email", value: "himaproditrpl@gmail.com", href: "mailto:himaproditrpl@gmail.com" },
-            { icon: Instagram, label: "Instagram", value: "@himaproditrpl", href: "https://instagram.com/himaproditrpl" },
-            { icon: MapPin, label: "Sekretariat", value: "Gedung TRPL, Kampus Politeknik" },
+            { icon: Instagram, label: "Instagram", value: "@himaproditrpl", href: "https://www.instagram.com/himatrpl.cwe" },
+            { icon: MapPin, label: "Sekretariat", value: "Gedung 1, Kampus Politeknik Kelapa Sawit Citra Widya Edukasi" },
           ].map((it, i) => (
             <motion.a
               key={it.label}

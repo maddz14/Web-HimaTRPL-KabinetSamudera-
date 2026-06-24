@@ -61,6 +61,18 @@ let webpackConfig = {
 };
 
 webpackConfig.devServer = (devServerConfig) => {
+  // Allow all hosts so mobile devices on the same network can access
+  devServerConfig.allowedHosts = 'all';
+
+  // Proxy /api requests to backend — HP only needs port 3000
+  devServerConfig.proxy = {
+    '/api': {
+      target: 'http://127.0.0.1:8000',
+      changeOrigin: true,
+      secure: false,
+    },
+  };
+
   // Add health check endpoints if enabled
   if (config.enableHealthCheck && setupHealthEndpoints && healthPluginInstance) {
     const originalSetupMiddlewares = devServerConfig.setupMiddlewares;

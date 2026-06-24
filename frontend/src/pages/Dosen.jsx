@@ -43,15 +43,15 @@ function DosenCard({ dosen, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="group glass rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all duration-300 hover:shadow-glow-cyan flex flex-col"
+      className="group glass rounded-2xl overflow-hidden hover:border-cyan-500/40 border border-cyan-900/20 transition-all duration-300 hover:shadow-glow-cyan flex flex-col"
     >
-      {/* Photo */}
-      <div className="relative h-60 overflow-hidden bg-deep">
+      {/* Photo — portrait ratio agar wajah terlihat penuh */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-deep/80">
         {dosen.photo_url ? (
           <img
             src={dosen.photo_url}
             alt={fullName}
-            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
             loading="lazy"
           />
         ) : (
@@ -59,37 +59,33 @@ function DosenCard({ dosen, index }) {
             <User className="w-20 h-20 text-cyan-500/30" />
           </div>
         )}
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-abyss/80 via-abyss/20 to-transparent" />
-
-        {/* Jabatan badge */}
-        {dosen.jabatan && (
-          <div className="absolute bottom-3 left-3">
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-cyan-500/20 border border-cyan-400/30 text-cyan-300 backdrop-blur-sm">
-              {dosen.jabatan}
-            </span>
-          </div>
-        )}
+        {/* Gradient tipis hanya di bagian bawah foto */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-abyss/60 to-transparent" />
       </div>
 
-      {/* Info */}
-      <div className="p-5 flex flex-col gap-3 flex-1">
-        {/* Name + gelar */}
-        <div>
-          <h3 className="headline text-sand-300 text-base sm:text-lg leading-tight">
-            {fullName}
-          </h3>
-        </div>
+      {/* Info — di bawah foto, terpisah jelas */}
+      <div className="p-4 flex flex-col gap-2 flex-1 bg-deep/30">
+        {/* Badge jabatan */}
+        {dosen.jabatan && (
+          <span className="self-start px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-cyan-500/15 border border-cyan-400/30 text-cyan-300">
+            {dosen.jabatan}
+          </span>
+        )}
+
+        {/* Nama lengkap */}
+        <h3 className="headline text-sand-300 text-sm sm:text-base leading-snug">
+          {fullName}
+        </h3>
 
         {/* Divider */}
         <div className="h-px bg-cyan-900/40" />
 
-        {/* Details list */}
-        <div className="space-y-2 flex-1">
+        {/* Bidang keahlian */}
+        <div className="flex-1 space-y-2">
           {dosen.bidang_keahlian && (
-            <div className="flex items-start gap-2.5">
+            <div className="flex items-start gap-2">
               <BookOpen className="w-3.5 h-3.5 text-cyan-400/70 mt-0.5 shrink-0" />
-              <p className="text-sand-300/75 text-xs leading-relaxed">
+              <p className="text-sand-300/75 text-xs leading-relaxed line-clamp-3">
                 {dosen.bidang_keahlian}
               </p>
             </div>
@@ -98,15 +94,15 @@ function DosenCard({ dosen, index }) {
 
         {/* Social links */}
         {(dosen.email || dosen.linkedin || dosen.research_url) && (
-          <div className="flex items-center gap-2 pt-1 border-t border-cyan-900/30">
+          <div className="flex items-center gap-2 pt-2 border-t border-cyan-900/30">
             {dosen.email && (
               <a
                 href={`mailto:${dosen.email}`}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-sand-300/60 hover:text-cyan-300 hover:bg-cyan-500/10 transition"
+                className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-xs text-sand-300/60 hover:text-cyan-300 hover:bg-cyan-500/10 transition"
                 title={dosen.email}
               >
                 <Mail className="w-3.5 h-3.5" />
-                <span className="truncate max-w-[100px]">{dosen.email.split("@")[0]}</span>
+                <span className="truncate max-w-[90px]">{dosen.email.split("@")[0]}</span>
               </a>
             )}
             {dosen.linkedin && (
@@ -137,6 +133,7 @@ function DosenCard({ dosen, index }) {
     </motion.div>
   );
 }
+
 
 // ---------------------------------------------------------------------------
 // Stats strip

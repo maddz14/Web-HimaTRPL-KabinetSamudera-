@@ -91,7 +91,7 @@ export default function Home() {
         const [b, statsRes, galeriRes] = await Promise.all([
           api.get("/berita?limit=3"),
           api.get("/public-stats"),
-          api.get("/galeri?limit=6"),
+          api.get("/galeri?limit=4"),
         ]);
         setLatestBerita(b.data);
         setStats({ proker: statsRes.data.program_kerja, anggota: statsRes.data.anggota, events: statsRes.data.berita });
@@ -272,7 +272,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* GALERI TERKINI */}
+      {/* GALERI TERKINI — maksimal 4 foto (2 baris), tombol Lihat Semua ke /galeri */}
       <section className="py-20 relative circuit-bg" data-testid="galeri-preview-section">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
           <div className="flex items-end justify-between mb-10">
@@ -284,27 +284,27 @@ export default function Home() {
                 Galeri <span className="text-gradient-cyan">Kegiatan</span>
               </h2>
             </div>
-            <Link to="/galeri" className="btn-ghost-ocean hidden md:inline-flex">
+            <Link to="/galeri" className="btn-ghost-ocean">
               Lihat Semua <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           {latestGaleri.length === 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {Array.from({ length: 6 }).map((_, i) => (
+            <div className="grid grid-cols-2 gap-3">
+              {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="rounded-2xl bg-deep/60 animate-pulse aspect-video" />
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[200px]">
-              {latestGaleri.map((item, i) => (
+            <div className="grid grid-cols-2 gap-3 auto-rows-[180px] sm:auto-rows-[220px]">
+              {latestGaleri.slice(0, 4).map((item, i) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.07 }}
-                  className={`relative overflow-hidden rounded-2xl group cursor-pointer ${i === 0 ? "row-span-2" : ""}`}
+                  className="relative overflow-hidden rounded-2xl group cursor-pointer"
                 >
                   <img
                     src={item.image_url}
@@ -313,8 +313,8 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-abyss/80 via-abyss/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <p className="text-sand-300 text-sm font-medium line-clamp-1">{item.title}</p>
+                  <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <p className="text-sand-300 text-xs sm:text-sm font-medium line-clamp-1">{item.title}</p>
                     {item.category && (
                       <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-300">
                         {item.category}
@@ -326,9 +326,10 @@ export default function Home() {
             </div>
           )}
 
-          <div className="mt-8 text-center md:hidden">
-            <Link to="/galeri" className="btn-ghost-ocean">
-              Lihat Semua <ArrowRight className="w-4 h-4" />
+          {/* Tombol Lihat Semua bawah — tampil di semua layar termasuk HP */}
+          <div className="mt-8 text-center">
+            <Link to="/galeri" className="btn-ocean inline-flex">
+              Lihat Semua Foto <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
