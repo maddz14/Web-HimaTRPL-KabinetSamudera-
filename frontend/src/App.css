@@ -1,0 +1,4 @@
+/* Legacy - intentionally minimal. Main styles in index.css */
+.App {
+    min-height: 100vh;
+}
