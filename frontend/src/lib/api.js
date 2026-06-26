@@ -14,10 +14,12 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    // Cara paling aman untuk semua versi Axios
+    config.headers.set('Authorization', `Bearer ${token}`);
   }
   return config;
 });
+
 
 export function formatApiErrorDetail(detail) {
   if (detail == null) return "Terjadi kesalahan. Silakan coba lagi.";
