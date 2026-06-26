@@ -23,6 +23,9 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const { data } = await api.post("/auth/login", { email, password });
+      if (data.access_token) {
+        localStorage.setItem("access_token", data.access_token);
+      }
       setUser(data);
       return { ok: true };
     } catch (e) {
@@ -36,6 +39,7 @@ export function AuthProvider({ children }) {
     } catch {
       /* ignore */
     }
+    localStorage.removeItem("access_token");
     setUser(false);
   };
 
